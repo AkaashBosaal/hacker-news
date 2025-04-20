@@ -1,0 +1,76 @@
+<div class="story-list-container">
+  <h1>Hacker News Latest Stories</h1>
+  
+  <div class="search-container">
+    <input 
+      type="text" 
+      [(ngModel)]="searchTerm" 
+      placeholder="Search stories..."
+      (keyup.enter)="onSearch()"
+      [disabled]="isLoading"
+    >
+    <button (click)="onSearch()" [disabled]="isLoading">Search</button>
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="isLoading" class="loading">
+    <div class="spinner"></div>
+    Loading stories...
+  </div>
+
+  <div *ngIf="!isLoading && stories.length === 0" class="no-results">
+    No stories found.
+  </div>
+
+  <ul class="story-list" *ngIf="!isLoading && stories.length > 0">
+    <li *ngFor="let story of stories" class="story-item">
+      <div class="story-title">
+        <ng-container *ngIf="story.url; else noLink">
+          <a 
+            [href]="story.url" 
+            target="_blank" 
+            rel="noopener noreferrer"
+          >
+            {{ story.title || 'Untitled' }}
+          </a>
+        </ng-container>
+        <ng-template #noLink>
+          <span class="no-url">{{ story.title || 'Untitled' }}</span>
+        </ng-template>
+        <span *ngIf="story.url" class="domain">({{ getDomain(story.url) }})</span>
+      </div>
+      <div class="story-meta">
+        {{ story.score }} {{ story.score > 1 ? 'points' : 'point' }} by {{ story.by }} | 
+        {{ story.time | date:'medium' }} | 
+        {{ story.commentCount }} comments
+      </div>
+    </li>
+  </ul>
+
+  <div class="pagination" *ngIf="!isLoading && stories.length > 0">
+    <button 
+      (click)="onPageChange(currentPage - 1)"
+      [disabled]="currentPage === 1"
+    >
+      Previous
+    </button>
+    
+    <button 
+      *ngFor="let page of getPageNumbers()" 
+      (click)="onPageChange(page)"
+      [class.active]="currentPage === page"
+    >
+      {{ page }}
+    </button>
+    
+    <button 
+      (click)="onPageChange(currentPage + 1)"
+      [disabled]="currentPage === totalPages"
+    >
+      Next
+    </button>
+  </div>
+</div>

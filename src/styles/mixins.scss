@@ -1,0 +1,32 @@
+@mixin respond-to($breakpoint) {
+    @if $breakpoint == small {
+      @media (max-width: 600px) { @content; }
+    }
+    @else if $breakpoint == medium {
+      @media (max-width: 1024px) { @content; }
+    }
+    @else if $breakpoint == large {
+      @media (max-width: 1440px) { @content; }
+    }
+  }
+  
+  // Flexbox utility
+  @mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  // Button styles mixin
+  @mixin button-style($bg-color, $text-color) {
+    background-color: $bg-color;
+    color: $text-color;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+  
+    &:hover {
+      background-color: darken($bg-color, 10%);
+    }
+  }  
