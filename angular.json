@@ -21,7 +21,7 @@
             "includePaths": [
               "src"
             ]},
-            "outputPath": "dist/hacker-news",
+            "outputPath": "dist/hacker-news-client/browser",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
