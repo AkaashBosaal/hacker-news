@@ -28,7 +28,8 @@
             "inlineStyleLanguage": "scss",
             "assets": ["src/assets"],
             "styles": ["src/styles.scss", "src/styles/mixins.scss"],
-            "scripts": []
+            "scripts": [],
+            "optimization": true
           },
           "configurations": {
             "production": {
