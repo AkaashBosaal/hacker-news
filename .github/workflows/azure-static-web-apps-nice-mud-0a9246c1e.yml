@@ -18,10 +18,12 @@ jobs:
     runs-on: ubuntu-latest
     name: Build and Deploy Job
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Repository
+        uses: actions/checkout@v3
         with:
           submodules: true
           fetch-depth: 0
+          path: hacker-news-client  # Ensures the repo is checked out in the correct folder
 
       - name: Setup Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v3
@@ -30,18 +32,21 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
+        working-directory: hacker-news-client
         run: npm install
 
       - name: Build Angular app
+        working-directory: hacker-news-client
         run: npm run build -- --configuration production
 
       - name: Verify build output
+        working-directory: hacker-news-client
         run: |
           ls -R dist
           echo "Actual index.html location:"
           find dist -name index.html
           echo "Checking for index.html in output"
-          test -f dist/hacker-news-client/browser/browser/index.html || (echo "Built files not found in expected location!" && exit 1)
+          test -f dist/browser/index.html || (echo "Built files not found in expected location!" && exit 1)
 
       - name: Deploy to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
@@ -49,8 +54,8 @@ jobs:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          app_location: "src"  # Angular app location
-          output_location: "dist/hacker-news-client/browser/browser"  # Corrected output path
+          app_location: "hacker-news-client/src"  # Updated app location
+          output_location: "hacker-news-client/dist/browser"  # Fixed output location
           skip_app_build: true
 
   close_pull_request_job:
