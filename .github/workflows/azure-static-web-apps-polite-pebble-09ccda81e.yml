@@ -23,34 +23,24 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Debug - List Directory Contents
-        run: ls -R
-        shell: bash
-
       - name: Setup Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
 
-      - name: Navigate to Client and Install Dependencies
-        run: |
-          cd src  # Adjust this path based on where your Angular client resides
-          npm install
-        shell: bash
+      - name: Install dependencies
+        run: npm install
 
       - name: Build Angular App
-        run: |
-          cd src  # Adjust this path based on where your Angular client resides
-          npm run build -- --configuration production
-        shell: bash
+        run: npm run build -- --configuration production
 
       - name: Verify Build Output
         run: |
           ls -R dist
           echo "Checking for index.html in output"
           find dist -name index.html
-          test -f dist/browser/index.html || (echo "Built files not found in expected location!" && exit 1)
+          test -f dist/browser/browser/index.html || (echo "Built files not found in expected location!" && exit 1)
 
       - name: Deploy to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
@@ -59,7 +49,7 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           app_location: "src"  # Root of your Angular app
-          output_location: "dist/browser"  # Ensure this matches your build output
+          output_location: "dist/browser/browser"  # Updated to match build output
           skip_app_build: true
 
   close_pull_request_job:
