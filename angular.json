@@ -20,7 +20,7 @@
             "stylePreprocessorOptions": {
               "includePaths": ["src"]
             },
-            "outputPath": "dist/browser",
+            "outputPath": "dist", // Ensure this matches Azure's expected output directory
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
