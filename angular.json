@@ -20,7 +20,7 @@
             "stylePreprocessorOptions": {
               "includePaths": ["src"]
             },
-            "outputPath": "dist",
+            "outputPath": "dist/hacker-news",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
