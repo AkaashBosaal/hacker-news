@@ -23,7 +23,9 @@ jobs:
         with:
           submodules: true
           fetch-depth: 0
-          path: hacker-news-client  # Ensures the repo is checked out in the correct folder
+
+      - name: Verify Repo Structure
+        run: ls -R
 
       - name: Setup Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v3
@@ -32,15 +34,12 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        working-directory: hacker-news-client
         run: npm install
 
       - name: Build Angular app
-        working-directory: hacker-news-client
         run: npm run build -- --configuration production
 
       - name: Verify build output
-        working-directory: hacker-news-client
         run: |
           ls -R dist
           echo "Actual index.html location:"
@@ -54,8 +53,8 @@ jobs:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          app_location: "hacker-news-client/src"  # Updated app location
-          output_location: "hacker-news-client/dist/browser"  # Fixed output location
+          app_location: "src"
+          output_location: "dist/browser"
           skip_app_build: true
 
   close_pull_request_job:
