@@ -23,19 +23,29 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Debug - List Directory Contents
+        run: ls -R
+        shell: bash
+
       - name: Setup Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
 
-      - name: Install dependencies
-        run: npm install
+      - name: Navigate to Client and Install Dependencies
+        run: |
+          cd src  # Adjust this path based on where your Angular client resides
+          npm install
+        shell: bash
 
       - name: Build Angular App
-        run: npm run build -- --configuration production
+        run: |
+          cd src  # Adjust this path based on where your Angular client resides
+          npm run build -- --configuration production
+        shell: bash
 
-      - name: Verify build output
+      - name: Verify Build Output
         run: |
           ls -R dist
           echo "Checking for index.html in output"
@@ -48,7 +58,7 @@ jobs:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          app_location: "."  # Root of your Angular app
+          app_location: "src"  # Root of your Angular app
           output_location: "dist/browser"  # Ensure this matches your build output
           skip_app_build: true
 
