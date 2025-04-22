@@ -51,6 +51,7 @@ jobs:
           app_location: "src"  # Root of your Angular app
           output_location: "dist/browser/browser"  # Updated to match build output
           skip_app_build: true
+          skip_deploy_on_missing_secrets: true  # Optional: Skip deployment if token is missing
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
