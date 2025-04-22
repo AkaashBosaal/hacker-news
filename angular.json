@@ -29,7 +29,8 @@
             "assets": ["src/assets"],
             "styles": ["src/styles.scss", "src/styles/mixins.scss"],
             "scripts": [],
-            "optimization": true
+            "optimization": true,
+            "deployUrl": "/"
           },
           "configurations": {
             "production": {
@@ -45,7 +46,8 @@
                   "maximumError": "8kB"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "baseHref": "/"
             },
             "development": {
               "optimization": false,
